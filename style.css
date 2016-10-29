@@ -1,0 +1,196 @@
+html {
+  overflow-y: scroll;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::-moz-selection {
+    background: #a8d1ff;
+}
+::selection {
+    background: #a8d1ff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 680px;
+  left: 50%;
+  top: 0;
+  position: absolute;
+  margin-left: -360px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* MAIN CONTAINER */
+body > div {
+  position: absolute;
+	padding: 0 20px 20px 20px;
+	width: 100%;
+}
+
+/* TITLE */
+body > div > p:first-child {
+  margin: 14px 0 22px 0;
+  font-size: 34px;
+}
+/* for the first two letters in the title */
+body > div > p:first-child > span:first-child {
+	color: #0078D7;
+	padding: 0;
+}
+/* for the blog description */
+body > div > p:first-child > span:last-child {
+	font-size: 17px;
+  margin-top: -5px;
+  display: block;
+}
+
+/* NAVIGATION */
+body > div > div:nth-child(2) {
+  width: 680px;
+	text-align: center;
+  background-color: #f5f5f5;
+  border-top: 1px solid rgb(220, 220, 220);
+  border-bottom: 1px solid rgb(220, 220, 220);
+}
+body > div > div:nth-child(2) > ul {
+  list-style-type: none;
+	padding: 0;
+	margin: 8px 0 8px 0;
+}
+body > div > div:nth-child(2) > ul > li {
+	display: inline;
+	text-align: center;
+}
+body > div > div:nth-child(2) > ul > li > a {
+	font-size: 115%; /*110*/
+  font-weight: 400;
+	text-decoration: none;
+  color: rgba(0, 0, 0, 0.8);
+  margin: 0 5px 0 5px;
+}
+body > div > div:nth-child(2) > ul > li > a:hover {
+  color: #0078D7;
+}
+
+/* POSTS */
+.post {
+  margin-top: 30px;
+  border-bottom: 1px solid rgb(220, 220, 220);
+}
+.post:first-child {
+	margin-top: 40px;
+}
+.post:last-child {
+	margin-bottom: 40px;
+}
+/* post caption */
+.post > a:first-child {
+  font-size: 170%;
+  padding-bottom: 2px;
+  text-decoration: none;
+  color: #0078D7;
+}
+.post > a:hover {
+	border-bottom: 1px solid #0078D7;
+}
+/* post short info: tags and date */
+.post > span {
+  display: block;
+  font-size: 115%;
+  line-height: 25px;
+  margin: 4px 0 10px 0;
+}
+/* contents */
+.post .contents {
+  margin: 20px 0px 20px -20px;
+}
+/* post text */
+.post p {
+  font-size: 115%;
+  font-weight: 400;
+  text-align: justify;
+  line-height: 34px;
+}
+/* bold */
+.post b {
+  font-weight: 500;
+}
+/* link in post text */
+.post a {
+  font-size: 100%;
+  color: #0078D7;
+  padding-bottom: 2px;
+  text-decoration: none;
+}
+/* hover for link in post text */
+.post a:hover {
+  border-bottom: 1px solid #0078D7;
+}
+/* headers */
+.post h1, h2, h3, h4 {
+  margin-bottom: -10px;
+  font-weight: 500;
+}
+.post h1 {
+  font-size: 160%;
+}
+.post h2 {
+  font-size: 140%;
+}
+.post h3 {
+  font-size: 120%;
+}
+/* horizontal image in text centered */
+.himg {
+  display: block;
+  margin: 0 auto;
+}
+/* vertical image in text */
+.vimg {
+    vertical-align: middle;
+}
+/* code block */
+.post pre {
+  word-wrap: break-word;
+  font-size: 100%;
+  margin-top: 18px;
+	text-align: left;
+	white-space: pre-line;
+	border: 1px solid #ccc;
+	padding: 5px 5px 5px 10px;
+	background-color: #eee;
+  border: 1px solid rgb(231, 231, 231);
+  background-color: rgb(245, 244, 247);
+}
+
+/* LIST */
+body > div > div:nth-child(3) ul {
+	list-style-type: none;
+	padding: 0;
+}
+body > div > div:nth-child(3) ul li {
+	margin-left: 20px;
+}
+body > div > div:nth-child(3) ul li a {
+	font-size: 115%;
+  line-height: 34px;
+	color: #0078D7;
+	text-decoration: none;
+}
+body > div > div:nth-child(3) ul li a:hover {
+	border-bottom: 1px solid #0078D7;
+}
+
+/* COPYRIGHT */
+body > div > p:last-child {
+	padding-top: 7px;
+  font-weight: 400;
+	font-size: 115%;
+  text-align: center;
+  margin-bottom: 22px;
+}
