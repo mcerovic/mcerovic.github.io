@@ -78,71 +78,71 @@ body > div > div:nth-child(2) > ul > li > a:hover {
 }
 
 /* POSTS */
-.post {
+.note {
   margin-top: 30px;
   border-bottom: 1px solid rgb(220, 220, 220);
 }
-.post:first-child {
+.note:first-child {
 	margin-top: 40px;
 }
-.post:last-child {
+.note:last-child {
 	margin-bottom: 40px;
 }
-/* post caption */
-.post > a:first-child {
+/* note caption */
+.note > a:first-child {
   font-size: 170%;
   padding-bottom: 2px;
   text-decoration: none;
   color: #0078D7;
 }
-.post > a:hover {
+.note > a:hover {
 	border-bottom: 1px solid #0078D7;
 }
-/* post short info: tags and date */
-.post > span {
+/* note short info: tags and date */
+.note > span {
   display: block;
   font-size: 115%;
   line-height: 25px;
   margin: 4px 0 10px 0;
 }
 /* contents */
-.post .contents {
+.note .contents {
   margin: 20px 0px 20px -20px;
 }
-/* post text */
-.post p {
+/* note text */
+.note p {
   font-size: 115%;
   font-weight: 400;
   text-align: justify;
   line-height: 34px;
 }
 /* bold */
-.post b {
+.note b {
   font-weight: 500;
 }
-/* link in post text */
-.post a {
+/* link in note text */
+.note a {
   font-size: 100%;
   color: #0078D7;
   padding-bottom: 2px;
   text-decoration: none;
 }
-/* hover for link in post text */
-.post a:hover {
+/* hover for link in note text */
+.note a:hover {
   border-bottom: 1px solid #0078D7;
 }
 /* headers */
-.post h1, h2, h3, h4 {
+.note h1, h2, h3, h4 {
   margin-bottom: -10px;
   font-weight: 500;
 }
-.post h1 {
+.note h1 {
   font-size: 160%;
 }
-.post h2 {
+.note h2 {
   font-size: 140%;
 }
-.post h3 {
+.note h3 {
   font-size: 120%;
 }
 /* horizontal image in text centered */
@@ -155,7 +155,7 @@ body > div > div:nth-child(2) > ul > li > a:hover {
     vertical-align: middle;
 }
 /* code block */
-.post pre {
+.note pre {
   word-wrap: break-word;
   font-size: 100%;
   margin-top: 18px;
