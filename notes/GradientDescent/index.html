@@ -1,0 +1,111 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name=viewport content="width=710">
+    <meta name="description" content="Personal blog about machine learning">
+    <meta name="keywords" content="Supervised learning, Gradient Descent, Stochastic Gradient Descent, SGD, Mini-batch gradient descent">
+    <meta name="author" content="mcerovic">
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"> </script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../../style.css">
+    <link rel="shortcut icon" type="image/png" href="../../favicon.png"/>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-86497875-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  	<script> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}, CommonHTML: {scale: 100}});</script>
+    <title> Gradient Descent </title>
+  </head>
+  <body>
+    <div>
+      <!-- title -->
+    	<p>
+    		<span>m</span>cerovic
+    		<span> blog about machine learning algorithms </span>
+    	</p>
+      <!-- navigation -->
+      <div>
+        <ul>
+          <li><a href="../../index.html"> Notes </a></li> &middot;
+          <li><a href="../../projects.html"> Projects </a></li> &middot;
+          <li><a href="../../topics.html"> Topics </a></li> &middot;
+          <li><a href="../../archive.html"> Archive </a></li> &middot;
+          <li><a href="../../about.html"> About </a></li>
+        </ul>
+      </div>
+      <!-- note container -->
+    	<div>
+    		<div class="note">
+          <!-- title -->
+    			<a href=""> Gradient Descent and its variants </a>
+          <!-- tags -->
+          <span> Optimization  </span>
+          <!-- contents -->
+          <ul class="contents">
+            <li> <a href="#mathematical-introduction"> 1. Mathematical introduction </a> </li>
+            <li> <a href="#gradient-descent-variants"> 2. Gradient descent variants </a>
+              <ul>
+                <li> <a href="#gradient-descent"> 2.1. Gradient descent </a> </li>
+                <li> <a href="#stochastic-and-mini-batchgradient-descent"> 2.2. Stochastic and mini-batch gradient descent </a> </li>
+              </ul>
+            </li>
+            <!-- <li> <a href="#extensions"> 3. Extensions </a>
+              <ul>
+                <li> <a href="#momentum"> 3.1. Momentum </a> </li>
+              </ul>
+            </li> -->
+            <li> <a href="#resources"> 3. Resources </a> </li>
+          </ul>
+          <!-- note text -->
+          <div>
+            <h1 id="mathematical-introduction"> 1. Mathematical introduction </h1>
+            <p>
+              Gradient descent (or steepest descent) is an iterative unconstrained optimization algorithm used for minimizing the objective real-valued function $Q : \mathbb{R}^{n} \rightarrow \mathbb{R}^{m}$, where $n,m \in \mathbb{N}$. Our goal is to find $X_{min}$ such that $Q(X_{min}) = \min Q(X)$. We can choose a starting point $X_k \in dom(Q)$ where $X_k = (x_{k_{1}}, x_{k_{2}}, \dots , x_{k_{n}})$, in whose neighborhood our function $Q$ is defined and differentiable. If we want to go a small amount $\Delta x_{k_{j}}$ in $x_{k_{j}}$ direction, for $j \in \{ 1,2, \dots ,n \}$, we get by using <a href="https://en.wikipedia.org/wiki/Linear_approximation"> linear approximation </a> for multivariable function that the objective function changes as follows : $$\Delta Q \approx \frac{\partial Q}{\partial x_{k_{1}}} \Delta x_{k_{1}} + \frac{\partial Q}{\partial x_{k_2}} \Delta x_{k_{2}} + \dots + \frac{\partial Q}{\partial x_{k_{n}}} \Delta x_{k_{n}}  $$ or simplier : $$ \Delta Q \approx \nabla Q \cdot \Delta X_{k} \tag{1}$$ where $\nabla Q$ is called the gradient vector which is a vector of partial derivatives in every direction and it's defined as follows : $$ \nabla Q \equiv \Bigg( \frac{\partial Q}{\partial x_{k_{1}}}, \frac{\partial Q}{\partial x_{k_{2}}}, \dots , \frac{\partial Q}{\partial x_{k_{n}}} \Bigg)^{T} $$ and $\Delta X_{k} = (\Delta x_{k_{1}}, \Delta x_{k_{2}}, \dots , \Delta x_{k_{n}})$. The condition we have to ensure is that $\Delta Q \leq 0 \Rightarrow Q(X_{k+1}) - Q(X_{k}) \leq 0$, because we want to have a value of the function in the new step that we've made $X_{k+1}$ to be less than in the step $X_{k}$, otherwise we won't be sure if we are going downhill in order to find the minimum. Now, let $\Delta X_{k}$ be : $$ X_{k + 1} \gets X_{k} - \alpha \nabla Q$$ or a simplier : $$ \Delta X_{k} = -\alpha \nabla Q \tag{2}$$ where $\alpha$ is called the <i>learning rate</i> and $X_{k+1}$ is a new position we've made to go down from the positon $X_{k}$ in all directions, which is the gradient vector $\nabla Q$, for a small amount of $\alpha$. If we put $\Delta X_{k}$ in the equation $(1)$ we get that $ \Delta Q \approx - \alpha \| \nabla Q \|_{2}^{2} $, where $ \| \nabla Q \|_{2}^{2} \geq 0$ and this gives us guarantee that $\Delta Q \leq 0 $, which means that the function $Q$ will allways decrease. We will make then a step from $X_{k+1}$ to the new position $X_{k+2}$ and so on until we hopefully converge to the minimum. <br>
+            </p>
+
+            <h1 id="gradient-descent-variants"> 2. Gradient descent variants </h1>
+            <p>
+              From the machine learning perspective in <a href="../SupervisedLearning/index.html"> supervised learning </a> we are trying to find hypothesis $\hat{h}$ which minimizes the <a href="../SupervisedLearning/index.html#empirical_risk_minimization"> empirical risk </a> $\hat{h} = \arg \min_{h_{\mathbf{w}} \in \mathcal{H}} R_{emp}(h_{\mathbf{w}})$ where : $$ R_{emp}(h_{\mathbf{w}}) = \frac{1}{m} \sum_{i = 1}^{m} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)}))$$ Solving this optimization problem can be achieved by using some optimization algorithm, in the context of this note using gradient descent and its variations. Gradient descent has variations depending on the number of samples that are used to make a step in order to find the minimum. In all variations, it's common to use $\alpha \in (0, 1]$ and for the stopping criterion in the repeat loop some number of iterations and watch how $R_{emp}(h_{\mathbf{w}})$ is changing or iterate until $ R_{emp}(h_{\mathbf{w}}) \leq \xi$, for some small $\xi \in \mathbb{R}$.
+            </p>
+
+            <h2 id="gradient-descent"> 2.1. Gradient descent </h2>
+            <p>
+              Batch gradient descent or just gradient descent uses the whole data set for computing average loss and then make a step. Algorithm in pseudocode : <br>
+              $input$ : random initialize parameters $\mathbf{w}$, learning rate $\alpha$ <br>
+              $output$ : parameters $\mathbf{w}$, that satisfy the condition for the $\hat{h}$<br>
+              $ GradientDescent :$ <br> $\quad repeat$ <br> $\quad \quad  w_{j} \leftarrow w_{j} - \alpha \frac{1}{m} \sum_{i=1}^{m} \frac{\partial }{\partial w_{j}} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)})) \;  \; for \; j\in \{ 1, 2, \dots ,n \} $ <br> $\quad until \; stopping \; criterion$ <br>
+       			</p>
+
+            <h2 id="stochastic-and-mini-batchgradient-descent"> 2.2. Stochastic and mini-batch gradient descent </h2>
+            <p>
+              Stochastic gradient descent is a stochastic approximation of the gradient descent. In batch gradient descent to change parameters $\mathbf{w}$ in one iteration we have to compute gradient as : $$ \nabla_{\mathbf{w}} R_{emp}(h_{\mathbf{w}}) = \frac{1}{m} \sum_{j = 1}^{n} \sum_{i = 1}^{m} \frac{\partial}{\partial w_{j}} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)}))$$ which means that we have to go through the whole data set in each iteration. If the data set is very large this can be very inefficient. So we are using stochastic gradient descent to estimate the gradient $\nabla_{\mathbf{w}} R_{emp}(h_{\mathbf{w}}) $ by using <i>one</i> or some <i>small number</i> of randomly chosen training samples also called mini-batch. Also, the stochastic approximation of the gradient has a few nice features. The approximation error can be seen as a form of regularization. Also, the stochastic approximation sometimes can prevent to get stuck in some local minimum. Let's say we choose $k$ samples from the data set, where $ 1 \leq k < m$, and we're now trying to estimate the gradient as : $$ \nabla_{\mathbf{w}} R_{emp}(h_{\mathbf{w}}) \approx \frac{1}{k} \sum_{j = 1}^{n} \sum_{i=1}^{k} \frac{\partial}{\partial w_{j}} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)}))$$ If $k = 1$ we will approximate gradient using only one sample at the time and we call the algorithm stochastic gradient descent. SGD algorithm in pseudocode : <br> $ input $ : random initialize parameters $ \mathbf{w} $, learning rate $\alpha$ <br> $ output $  : parameters $\mathbf{w}$, that satisfy the condition for the $\hat{h}$ <br> $ StochasticGradientDescent :$ <br> $\quad repeat$ <br> $\quad \quad for \; i = 1 \; to \; m \; do $ <br> $\quad \quad \quad w_{j} \leftarrow w_{j} - \alpha \frac{\partial }{\partial w_{j}} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)})) \;  \; for \; \; j\in \{ 1, 2, \dots ,n \}$ <br> $\quad until \; stopping \; criterion$ <br>  <br>  And when the $k \gt 1$ we call the algorithm mini-batch gradient descent. Mini-batch GD in pseudocode : <br> $ input $ : random initialize parameters $ \mathbf{w} $, learning rate $\alpha$, number of samples $k$ <br> $ output $  : parameters $\mathbf{w}$, that satisfy the condition for the $\hat{h}$ <br> $ MiniBatchGradientDescent :$ <br> $\quad repeat$ <br> $\quad \quad for \; i = 1 \; to \; m \; do $ <br> $\quad \quad \quad w_{j} \leftarrow w_{j} - \alpha \frac{1}{k} \sum_{l=i}^{i+k-1} \frac{\partial }{\partial w_{j}} L(y^{(l)}, h_{\mathbf{w}}(\mathbf{x}^{(l)})) \;  \; for \; \; j\in \{ 1, 2, \dots ,n \}$ <br> $\quad \quad \quad i \leftarrow i + k $ <br> $\quad until \; stopping \; criterion$
+            </p>
+
+            <!-- <h1 id="extensions"> 3. Extensions </h1>
+            <p>
+
+            </p>
+
+            <h2 id="momentum"> 3.1 Momentum </h2>
+            <p>
+
+            </p> -->
+
+            <h1 id="resources"> 3. Resources </h1>
+            <p>
+      				<a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf"> CS229: Supervised Learning, Discriminative Algorithms. - Andrew Ng </a> <br>
+      				<a href="http://neuralnetworksanddeeplearning.com/chap1.html"> Neural Networks and Deep Learning. - Michael Nielsen </a> <br>
+            </p>
+
+          </div>
+    		</div>
+    	</div>
+    	<p> Copyright &copy; 2016 </p>
+    </div>
+  </body>
+</html>
