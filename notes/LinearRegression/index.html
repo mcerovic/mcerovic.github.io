@@ -1,0 +1,188 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name=viewport content="width=710">
+  <meta name="description" content="Personal blog about machine learning">
+  <meta name="keywords" content=" Machine learning, Supervised learning, Discriminative models, General Linear Models, Regression, Linear Regression, Polynomial Regression, Maximum Likelihood Estimation, Regularized Linear Regression">
+  <meta name="author" content="mcerovic">
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="shortcut icon" type="image/png" href="../../favicon.png"/>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-86497875-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+  <script> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}, CommonHTML: {scale: 100}});</script>
+  <title> Linear Regression </title>
+</head>
+<body>
+<div>
+  <!-- title -->
+  <p>
+    <span>m</span>cerovic
+    <span> blog about machine learning algorithms </span>
+  </p>
+  <!-- navigation -->
+  <div>
+    <ul>
+      <li><a href="../../index.html"> Notes </a></li> &middot;
+      <li><a href="../../projects.html"> Projects </a></li> &middot;
+      <li><a href="../../topics.html"> Topics </a></li> &middot;
+      <li><a href="../../archive.html"> Archive </a></li> &middot;
+      <li><a href="../../about.html"> About </a></li>
+    </ul>
+  </div>
+  <!-- note container -->
+  <div>
+    <div class="note">
+      <a href=""> Linear Regression </a>
+      <span> Supervised Learning, Regression, Discriminative Learning, General Linear Models </span>
+      <ul class="contents">
+          <li> <a href="#linear_regression"> 1. Linear regression </a>
+              <ul>
+                  <li><a href="#maximum_likelihood_estimation"> 1.1. Maximum likelihood estimation </a></li>
+                  <li><a href="#likelihood_loss_function"> 1.2. Likelihood as a Loss Function </a></li>
+              </ul>
+          </li>
+          <li><a href="#regularized_linear_regression"> 2. Regularized linear regression </a></li>
+          <li><a href="#resources"> 3. Resources </a></li>
+      </ul>
+      <div>
+        <h1 id="linear_regression"> 1. Linear regression </h1>
+        <p>
+          Linear regression is one of the most well-known <a href="../SupervisedLearning/index.html"> supervised learning </a> algorithms and also a widely used algorithm for regression. It belongs to the class of <a href="#"> discriminative models</a> and we will make a set of probabilistic assumptions in order to find out what parameters to choose and what is the appropriate loss function for our model. Also, it comes from a much broader family of models called <i> Generalized Linear Models </i> (GLM) and each model from GLM is derived from some specific data distribution.
+
+          Let's say we have a set defined as $\mathcal{D} = \big \{ (\mathbf{x}^{(i)}, y^{(i)}) \mid \mathbf{x}^{(i)} \in \mathbb{R}^{n}, y^{(i)} \in \mathbb{R} \big \}_{i = 1}^{m}$. Our goal is to predict for some new $ \mathbf{x}^{(k)} $, $\mathbf{x}^{(k)} \notin \mathcal{D}$, corresponding $y^{(k)}$, in other words we try to predict a continious value for some new, previously unseen example.
+
+          Let's assume that we're trying to approximate $ y $ as a linear function of $ x $, so our hypothesis $ h_{\mathbf{w}} $ is defined as follows :
+
+          $$ h_{\mathbf{w}}(\mathbf{x}) = w_{0} + \sum_{j = 1}^{n} w_{j}x_{j} = \mathbf{w}^{T} \mathbf{x} $$
+
+          where $ n $ is a number of features, $ \mathbf{w} = (w_{0}, w_{1}, \dots w_{n}) $ is a vector of parameters (or weights) and $ \mathbf{x} = (1, x_{1}, \dots x_{n}) $. The key property of this model is that it is a linear function of the parameters and it is also, however, a linear function of the input variables $ x_{j} $ , and this imposes significant limitations on the model. We therefore extend the class of models by considering linear combinations of fixed nonlinear functions of the input variables, of the form :
+
+          $$ h_{\mathbf{w}}(\mathbf{x}) = w_{0} + \sum_{j = 1}^{n} w_{j} \phi_{j}(\mathbf{x}) = \mathbf{w}^{T} \phi(\mathbf{x}) $$
+
+          where $ \phi_{j}(\mathbf{x}) $ are known as basis functions and $ \phi_{0}(\mathbf{x}) = 1 $.
+
+          This allows us to overcome some limitations of the classical linear regression model. For example, if we choose for $ \phi_{j} (\mathbf{x}) = \mathbf{x}^{j} $, for $j \in \{1, \dots , n \}$ we call that model polynomial regression and this lets us choose polynomial of degree at most $ n $ :
+
+          $$ h_{\mathbf{w}}(\mathbf{x}) = w_{0} + \sum_{j = 1}^{n} w_{j}\phi_{j}(\mathbf{x}) = w_{0} + w_{1}x_{1} + w_{2}x_{2}^{2} + \dots + w_{n}x_{n}^{n} $$
+
+          Also, there are other possible basis functions like sigmoidal basis function, Gaussian basis function, and others.
+        </p>
+
+        <h2 id="maximum_likelihood_estimation"> 1.1. Maximum likelihood estimation </h2>
+        <p>
+          Let's make a little digression from linear regression and introduce a method called <i> Maximum Likelihood Estimation </i> (MLE) which is used for estimating the parameters of a statistical model given observations. Let's say we have $ m $ independent and identically distributed observations $ X_1, X_2, \dots, X_m $ drawn from some probability distribution with density function $ p(x; w) $ :
+
+          $$ X_{i} \mathop{\sim}\limits^{{\small\text{i.i.d.}}} p(x; w) $$
+
+          where $ w \in W $ is a vector of unknown parameter(s) of that distribution, e.g. in Gaussian distribution $ w $ will be the vector of mean $ \mu $ and variance $ \sigma^{2} $ and our goal is to estimate those parameters. In order to use MLE we need to define a joint density function for the i.i.d. observations :
+
+          $$
+            p(X_1, X_2, \dots, X_m; w) = p(X_1;w) \times p(X_2;w) \times \dotsb \times p(X_m;w)
+          $$
+
+          Not let's look at this function from a different perspective which considers the observed values $ \{ X_{i} \} $ to be fixed parameters, whereas $ w $ will be the function's variable and allowed to vary freely and call it <i> likelihood </i> which is defined as a function of $ w $ given observation $ x $ :
+
+          $$ \mathcal{L}(w; x) = \prod_{i=1}^m p(X_{i}; w) $$
+
+          The maximum likelihood estimator of $ w $ seeks the for the parameters $ \hat{w} $ that maximizes the
+          likelihood, or equivalently minimizes the negative log-likelihood :
+
+          $$
+              \eqalign{
+                \hat{w} &= \arg \max_{w \in W} \mathcal{L}(w; x)
+                     \cr&= \arg \max_{w \in W} \prod_{i=1}^{m} p(X_{i}; w)
+                     \cr&= \arg \max_{w \in W} \sum_{i=1}^{m} \log p(X_{i}; w)
+                     \cr&= \arg \min_{w \in W} \frac{1}{m} \sum_{i=1}^{m} - \log p(X_{i}; w)
+              }
+          $$
+        </p>
+
+        <h2 id="likelihood_loss_function"> 1.2. Likelihood as a Loss Function </h2>
+        <p>
+          We said that target variables and the inputs were related via the equations :
+
+          $$ y^{(i)} = \mathbf{w}^{T} \mathbf{x}^{(i)} + \epsilon^{(i)} \tag{1} $$
+
+          where $ \epsilon^{(i)} $ is a residual error between our prediction and the true outcome. Let's assume the residual error is distributed according to a Gaussian distribution $ \epsilon^{(i)} \mathop{\sim}\limits^{{\small\text{i.i.d.}}} \mathcal{N}(0, \sigma^{2}) $, where $ \sigma^{2} $ is constant. If we plot histogram of residual errors $ \epsilon^{(i)} = w^{T}x^{(i)} - y^{(i)} $ we will get a histogram that corresponds to Gaussian. From the equation $ (1) $ and assumption we have made about $ \epsilon^{(i)} $ we get :
+
+          $$
+            y^{(i)} \mathop{\sim}\limits^{{\small\text{i.i.d.}}} \mathcal{N}(\mathbf{w}^{T} \mathbf{x}^{(i)}, \sigma^{2})
+          $$
+
+          In a form of of density function :
+
+          $$
+            p(y^{(i)} | \mathbf{x}^{(i)}; \mathbf{w}) = \frac{1}{\sqrt{2 \sigma^{2} \pi}} \exp \Bigg(
+              -\frac{(y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)})^{2}}{2 \sigma^{2}}
+            \Bigg)
+          $$
+
+          We use the negative log-likelihood loss function, defined as :
+
+          $$
+          L(y^{(i)}, \hat{y}) = - \log p(y^{(i)} | \mathbf{x}^{(i)}; \mathbf{w})
+          $$
+
+          The empirical risk is :
+
+          $$
+            R_{emp}(h_{\mathbf{w}}) = - \frac{1}{m} \sum_{i = 1}^{m} \log p(y^{(i)} | \mathbf{x}^{(i)}; \mathbf{w})
+          $$
+
+          The hypothesis which minimizes empirical risk is :
+
+          $$
+            \eqalign {
+              \hat{h}_{\mathbf{w}} &= \arg \min_{h_{\mathbf{w}} \in \mathcal{H}} R_{emp} (h_{\mathbf{w}})
+                                \cr&= \arg \min_{h_{\mathbf{w}} \in \mathcal{H}} - \frac{1}{m} \sum_{i = 1}^{m} \log \frac{1}{\sqrt{2 \pi \sigma}} \exp \Bigg(-\frac{(y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)})^{2}}{2 \sigma^{2}} \Bigg)
+                                \cr&= \arg \min_{h_{\mathbf{w}} \in \mathcal{H}} - \frac{1}{m} m \log \frac{1}{\sqrt{2 \sigma^{2} \pi}} + \frac{1}{m} \frac{m}{2 \sigma^{2}} \sum_{i = 1}^{m} (y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)})^{2}
+                                \cr&= \arg \min_{h_{\mathbf{w}} \in \mathcal{H}} \frac{1}{2} \sum_{i = 1}^{m} (y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)})^{2}
+            }
+          $$
+
+          We have used rules $ \log(ab) = \log(a) + \log(b) $ and $ \log(e^{x}) = x $ and we've also removed unnecessary constants. As we can see the empirical risk minimization is equivalent to the maximum likelihood estimation. This function is differentiable and even more, it is always convex so it is guaranteed it will converge to minimum and we can use <a href="../GradientDescent/index.html"> gradient descent</a> or some of its variants in order to find $ \hat{h}_{\mathbf{w}} $. Let's derive a derivative for batch gradient descent, both other versions stochastic and mini-batch will have just different $ m $ in sum, $1$ and $k$ respectively. Batch gradient descent derivative :
+
+          $$
+            \eqalign {
+              \frac{\partial }{\partial w_{j}} R_{emp}(h_{\mathbf{w}}) &= \frac{\partial }{\partial w_{j}} \Bigg( \frac{1}{2} \sum_{i = 1}^{m} (y^{(i)} -         \mathbf{w}^{T} \mathbf{x}^{(i)})^{2} \Bigg)
+                      \cr&= \sum_{i = 1}^{m} (y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)}) \frac{\partial }{\partial w_{j}} \Bigg( y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)} \Bigg)
+                      \cr&= \sum_{i = 1}^{m} (y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)}) \frac{\partial }{\partial  w_{j}} \Bigg( \sum_{j = 1}^{n} y^{(i)} - w_{j} x_{j}^{(i)} \Bigg)
+                      \cr&= -\sum_{i = 1}^{m} (y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)}) x_{j}^{(i)}
+            }
+          $$
+        </p>
+
+        <h1 id="regularized_linear_regression">2. Regularized linear regression </h1>
+        <p>
+          Regularized form of the linear regression with $\ell_{2}$ regularization term is :
+
+          $$
+            \hat{h}_{\mathbf{w}} = \arg\min_{h_{\mathbf{w}} \in \mathcal{H}} \bigg\{
+              \frac{1}{2} \sum_{i = 1}^{m} (y^{(i)} - \mathbf{w}^{T} \mathbf{x}^{(i)})^{2} + \lambda \sum_{j = 1}^{n} w_{j}^{2}
+            \bigg\}
+          $$
+        </p>
+
+        <h1 id="resources"> 3. Resources </h1>
+        <p>
+          <a href="http://nowak.ece.wisc.edu/SLT09/lecture13.pdf"> ECE 901: Maximum Likelihood Estimation. - Robert Nowak </a> <br>
+          <a href="http://www.cs.columbia.edu/~jebara/4771/tutorials/regression.pdf"> Regression by linear combination of basis functions. - Risi Kondor </a> <br>
+          <a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf"> CS229: Supervised Learning, Discriminative Algorithms. - Andrew Ng </a> <br>
+          <a href="http://curtis.ml.cmu.edu/w/courses/index.php/Stochastic_Gradient_Descent"> Pattern Recognition and Machine Learning. - Christopher Bishop </a> <br>
+        </p>
+      </div>
+    </div>
+  </div>
+  <p> Copyright &copy; 2016 </p>
+</div>
+</body>
+</html>
