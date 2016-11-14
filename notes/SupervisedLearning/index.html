@@ -19,7 +19,7 @@
     ga('send', 'pageview');
   </script>
 	<script> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}, CommonHTML: {scale: 100}});</script>
-  <title> Machine Learning Dictionary </title>
+  <title> Supervised learning </title>
 </head>
 <body>
 <div>
@@ -53,22 +53,90 @@
       <div>
         <h1 id="supervised_learning"> 1. Supervised learning </h1>
         <p>
-          Let us define a dataset $\mathcal{D} = \big \{ (\mathbf{x}^{(i)}, y^{(i)}) \mid \mathbf{x}^{(i)} \in X, y^{(i)} \in Y \big \}_{i = 1}^{m} $ where $\mathbf{x}^{(i)}$ is called a feature vector from the input set $X \; (X \subset \mathbb{R}^{p}, {p} \in \mathbb{N})$ and $y^{(i)}$ is label from the output set $Y$. In <i>supervised learning</i> our goal is to find a function (hypothesis) $h$ from a function set (hypothesis set) $\mathcal{H}$ such that $h : X \rightarrow Y$. If the output set $Y \subset \mathbb{N}$ then $h$ is performing <i>classification</i> task or predicting discrete value. Let $Y = \{1, \dots ,c \}$ with $c$ being the number of classes. If $c = 2$ then we call it <i>binary classification</i> and if $c \gt 2$ we call it <i>multiclass classification</i>. Also if our classes are not mutually exclusive we have a <i>multi-label classification</i> (e.g. movie can have multiple genres). On the other hand if $Y \subset \mathbb{R}$ $h$ is performing a <i>regression</i> task or predicting continuous value.
+          Let us define a dataset $\mathcal{D} = \big \{ (\mathbf{x}^{(i)}, y^{(i)}) \mid \mathbf{x}^{(i)} \in X, y^{(i)} \in Y \big \}_{i = 1}^{m} $ where $\mathbf{x}^{(i)}$ is called a feature vector from the input set $X \; (X \subset \mathbb{R}^{p}, {p} \in \mathbb{N})$ and $y^{(i)}$ is label from the output set $Y$.
+
+          In <i>supervised learning</i> our goal is to find a function (hypothesis) $h$ from a function set (hypothesis set) $\mathcal{H}$ such that $h : X \rightarrow Y$.
+
+          If the output set $Y \subset \mathbb{N}$ then $h$ is performing <i>classification</i> task or predicting discrete value. Let $Y = \{1, \dots ,c \}$ with $c$ being the number of classes.
+
+          If $c = 2$ then we call it <i>binary classification</i> and if $c \gt 2$ we call it <i>multiclass classification</i>.
+
+          Also if our classes are not mutually exclusive we have a <i>multi-label classification</i> (e.g. movie can have multiple genres).
+
+          On the other hand if $Y \subset \mathbb{R}$ $h$ is performing a <i>regression</i> task or predicting continuous value.
         </p>
 
         <h1 id="type_of_models"> 2. Type of models </h1>
         <p>
-          Many learning algorithms are probabilistic models where $h$ takes the form of a conditional probability model $h(x) = P(y|x)$ and we call this type of models conditional or <i>discriminative models</i>. Sometimes it is convinient to represent $h$ using a scoring function $f : X \times Y \rightarrow \mathbb{R}$ so that $h$ is returning $y$ value that gives the highest score, $h = \arg \max_{y} f(x, y)$. In this case $f$ takes a form of the joint probability model $f(x, y) = P(x, y)$ and this type of models we call <i>generative models</i>.
+          Many learning algorithms are probabilistic models where $h$ takes the form of a conditional probability model $h(x) = P(y|x)$ and we call this type of models conditional or <i>discriminative models</i>.
+
+          Sometimes it is convinient to represent $h$ using a scoring function $f : X \times Y \rightarrow \mathbb{R}$ so that $h$ is returning $y$ value that gives the highest score, $h = \arg \max_{y} f(x, y)$. In this case $f$ takes a form of the joint probability model $f(x, y) = P(x, y)$ and this type of models we call <i>generative models</i>.
         </p>
 
         <h1 id="empirical_risk_minimization"> 3. Empirical risk minimization  </h1>
         <p>
-          Empirical risk minimization is an approach for choosing $h$ or $f$ (let's choose $h$ in folowing text). Let's assume that there is a joint probability distribution $P(x, y)$ over input set $X$ and output set $Y$ and that the dataset $\mathcal{D}$ is consisted of samples $(\mathbf{x}^{(i)}, y^{(i)})$ which are drawn i.i.d. from that probability. To measure how well the hypothesis $h$ fits the data let us introduce the <i>loss function</i> $L : Y \times Y \rightarrow \mathbb{R}^{+}$ which is a non-negative function that measures disagreement between its arguments. The loss of predicting the value $\hat{y}$ from the true outcome $y$ is $L(y^{(i)}, \hat{y})$. Then, when we have our hypothesis $h$ and the loss function $L$ we can define a criterion for choosing the best hypothesis. The best hypothesis is the one which makes the smallest error or in other words the smallest expected loss for the given data. Measuring the risk assosiated for the hypothesis  $h$ is defined as expectation of the loss function : $$ R(h) = \mathbf{E} [L(y, h(x))] = \iint L(y, h(x))P(x, y)dxdy$$ Then the goal of learning algorithm is to find $h^{*}$ for which the risk $R(h)$ is minimal, $h^{*} = \arg \min_{h \in \mathcal{H}}R(h)$. Because we don't know the exact distribution $P(x, y)$ we cannot compute $R(h)$ and the only available information is contained in the data set. So instead of minimizing $R(h)$ we instead use its approximation called <i>empirical risk</i>, which is constructed on the basis of the given data set. Also considering all posible $h$ is infeasible, but we can assume some representations, usually we consider parametarized representation of hypothesis, denoted as $h_{\mathbf{w}}$, where $\mathbf{w}$ is called a vector of parameteres. Then the empirical risk is the average sum of the loss function on the dataset : $$ R_{emp}(h_{\mathbf{w}}) = \frac{1}{m} \sum_{i = 1}^{m} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)}))$$ The <i>empirical risk minimzation</i> principle says that we should choose a function $\hat{h}_{\mathbf{w}}$ such that $\hat{h}_{\mathbf{w}}$ minimizes the empirical risk, $\hat{h}_{\mathbf{w}} = \arg \min_{h_{\mathbf{w}} \in \mathcal{H}} R_{emp}(h_{\mathbf{w}})$. Machine learning algorithms defined by the ERM principle are consisted in solving the above optimizational problem.
+          Empirical risk minimization is an approach for choosing $h$ or $f$ (let's choose $h$ in folowing text).
+
+          Let's assume that there is a joint probability distribution $P(x, y)$ over input set $X$ and output set $Y$ and that the dataset $\mathcal{D}$ is consisted of samples $(\mathbf{x}^{(i)}, y^{(i)})$ which are drawn i.i.d. from that probability.
+
+          To measure how well the hypothesis $h$ fits the data let us introduce the <i>loss function</i> $L : Y \times Y \rightarrow \mathbb{R}^{+}$ which is a non-negative function that measures disagreement between its arguments.
+
+          The loss of predicting the value $\hat{y}$ from the true outcome $y$ is $L(y^{(i)}, \hat{y})$.
+
+          Then, when we have our hypothesis $h$ and the loss function $L$ we can define a criterion for choosing the best hypothesis.
+
+          The best hypothesis is the one which makes the smallest error or in other words the smallest expected loss for the given data.
+
+          Measuring the risk assosiated for the hypothesis  $h$ is defined as expectation of the loss function :
+
+          $$ R(h) = \mathbf{E} [L(y, h(x))] = \iint L(y, h(x))P(x, y)dxdy $$
+
+          Then the goal of learning algorithm is to find $h^{*}$ for which the risk $R(h)$ is minimal, $h^{*} = \arg \min_{h \in \mathcal{H}}R(h)$.
+
+          Because we don't know the exact distribution $P(x, y)$ we cannot compute $R(h)$.
+
+          The only available information is contained in the data set.
+
+          So instead of minimizing $R(h)$ we instead use its approximation called <i>empirical risk</i>, which is constructed on the basis of the given data set.
+
+          Also considering all posible $h$ is infeasible, but we can assume some representations, usually we consider parametarized representation of hypothesis, denoted as $h_{\mathbf{w}}$, where $\mathbf{w}$ is called a vector of parameteres.
+
+          Then the empirical risk is the average sum of the loss function on the data set :
+
+          $$ R_{emp}(h_{\mathbf{w}}) = \frac{1}{m} \sum_{i = 1}^{m} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)}))$$
+
+          The <i>empirical risk minimzation</i> principle states that we should choose a hypothesis $\hat{h}_{\mathbf{w}}$ which minimizes the empirical risk  $\hat{h}_{\mathbf{w}} = \arg \min_{h_{\mathbf{w}} \in \mathcal{H}} R_{emp}(h_{\mathbf{w}})$.
+
+          Machine learning algorithms defined by the ERM principle are consisted in solving the above optimizational problem.
         </p>
 
         <h1 id="regularization"> 4. Regularization </h1>
         <p>
-          Regularization is a technique used in an attempt to prevent <i>overfitting</i>, which occurs when a model fits too well on a given data but doesn't generalize well a given problem. In order to overcome the overfitting problem, we are incorporating a regularization term into the optimization. As we said, we are only considering parameterized representation of hypothesis $h_{\mathbf{w}}$ and we are trying to find parameters $\mathbf{w}$ which best fits our data. In that process we can learn modeling the random noise in the data, rather than the intended outputs. Regularization term penalizes the magnitude of the parameters, making the model less adaptable to the data. One of the most common used regularization terms is ridge or $\ell_{2}$ regularization term. By adding this term, the optimization problem then consists of minimizing : $$ \hat{h}_{\mathbf{w}} =  \arg\min_{h_{\mathbf{w}} \in \mathcal{H}} \bigg\{ \frac{1}{m} \sum_{i = 1}^{m} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)})) + \lambda \| \mathbf{w} \|_{2}^{2} \bigg\} $$ where $ \| \mathbf{w} \|_{2}^{2}$ is a squared <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm">Euclidean norm</a> and $\lambda \in \mathbb{R}$ is regularization parameter which is used to controls the <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff"> bias-variance tradeoff</a>. The value of $\lambda$ can be chosen via <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)">cross-validation</a>. Ridge regularization ensures existence, uniqueness, and stability of the solution. Other regularizations terms are lasso or $\ell_{1}$ regularization, elastic net regularization and others.
+          Regularization is a technique used in an attempt to prevent <i>overfitting</i>, which occurs when a model fits too well on a given data but doesn't generalize well a given problem.
+
+          In order to overcome the overfitting problem, we are incorporating a regularization term into the optimization.
+
+          As we said, we are only considering parameterized representation of hypothesis $h_{\mathbf{w}}$ and we are trying to find parameters $\mathbf{w}$ which best fits our data.
+
+          In that process we can learn modeling the random noise in the data, rather than the intended outputs.
+
+          Regularization term penalizes the magnitude of the parameters, making the model less adaptable to the data.
+
+          One of the most common used regularization terms is ridge or $\ell_{2}$ regularization term.
+
+          By adding this term, the optimization problem then consists of minimizing :
+
+          $$  \hat{h}_{\mathbf{w}} =  \arg\min_{h_{\mathbf{w}} \in \mathcal{H}} \bigg\{
+                \frac{1}{m} \sum_{i = 1}^{m} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)})) + \lambda \| \mathbf{w} \|_{2}^{2}
+              \bigg\} $$
+
+          where $ \| \mathbf{w} \|_{2}^{2}$ is a squared <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm">Euclidean norm</a> and $\lambda \in \mathbb{R}$ is regularization parameter which is used to controls the <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff"> bias-variance tradeoff</a>.
+
+          The value of $\lambda$ can be chosen via <a href="https://en.wikipedia.org/wiki/Cross-validation_(statistics)">cross-validation</a>.
+
+          Ridge regularization ensures existence, uniqueness, and stability of the solution.
+
+          Other regularizations terms are lasso or $\ell_{1}$ regularization, elastic net regularization and others.
         </p>
 
         <h1 id="resources"> 5. Resources </h1>

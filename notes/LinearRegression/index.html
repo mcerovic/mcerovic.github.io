@@ -64,22 +64,22 @@
 
           $$ h_{\mathbf{w}}(\mathbf{x}) = w_{0} + \sum_{j = 1}^{n} w_{j}x_{j} = \mathbf{w}^{T} \mathbf{x} $$
 
-          where $ n $ is a number of features, $ \mathbf{w} = (w_{0}, w_{1}, \dots w_{n}) $ is a vector of parameters (or weights) and $ \mathbf{x} = (1, x_{1}, \dots x_{n}) $. The key property of this model is that it is a linear function of the parameters and it is also, however, a linear function of the input variables $ x_{j} $ , and this imposes significant limitations on the model. We therefore extend the class of models by considering linear combinations of fixed nonlinear functions of the input variables, of the form :
+          where $ n $ is a number of features, $ \mathbf{w} = (w_{0}, w_{1}, \dots w_{n}) $ is a vector of parameters (or weights) and $ \mathbf{x} = (1, x_{1}, \dots x_{n}) $. The key property of this model is that it is a linear function of the parameters and it is also, however, a linear function of the input variables $ x_{j} $ which this imposes significant limitations on the model. We therefore extend the class of models by considering linear combinations of fixed nonlinear functions of the input variables, of the form :
 
           $$ h_{\mathbf{w}}(\mathbf{x}) = w_{0} + \sum_{j = 1}^{n} w_{j} \phi_{j}(\mathbf{x}) = \mathbf{w}^{T} \phi(\mathbf{x}) $$
 
           where $ \phi_{j}(\mathbf{x}) $ are known as basis functions and $ \phi_{0}(\mathbf{x}) = 1 $.
 
-          This allows us to overcome some limitations of the classical linear regression model. For example, if we choose for $ \phi_{j} (\mathbf{x}) = \mathbf{x}^{j} $, for $j \in \{1, \dots , n \}$ we call that model polynomial regression and this lets us choose polynomial of degree at most $ n $ :
+          This allows us to overcome some limitations of the classical linear regression model. For example, if we choose for $ \phi_{j} (\mathbf{x}) = \mathbf{x}^{j} $, for $j \in \{1, \dots , n \}$ we call that model polynomial regression and this let us choose polynomial of degree at most $ n $ :
 
           $$ h_{\mathbf{w}}(\mathbf{x}) = w_{0} + \sum_{j = 1}^{n} w_{j}\phi_{j}(\mathbf{x}) = w_{0} + w_{1}x_{1} + w_{2}x_{2}^{2} + \dots + w_{n}x_{n}^{n} $$
 
-          Also, there are other possible basis functions like sigmoidal basis function, Gaussian basis function, and others.
+          Also, there are other possible basis functions like sigmoidal basis function, Gaussian basis function and others.
         </p>
 
         <h2 id="maximum_likelihood_estimation"> 1.1. Maximum likelihood estimation </h2>
         <p>
-          Let's make a little digression from linear regression and introduce a method called <i> Maximum Likelihood Estimation </i> (MLE) which is used for estimating the parameters of a statistical model given observations. Let's say we have $ m $ independent and identically distributed observations $ X_1, X_2, \dots, X_m $ drawn from some probability distribution with density function $ p(x; w) $ :
+          Let's make a little digression from linear regression and introduce a method called <i> Maximum Likelihood Estimation </i> (MLE) which is used for estimating the parameters of a statistical model given observations. Let's say we have $ m $ independent and identically distributed observations $ X_1, X_2, \dots, X_m $ drawn from some probability distribution characterized with assumed probability density function $ p(x; w) $ :
 
           $$ X_{i} \mathop{\sim}\limits^{{\small\text{i.i.d.}}} p(x; w) $$
 
@@ -138,7 +138,7 @@
             R_{emp}(h_{\mathbf{w}}) = - \frac{1}{m} \sum_{i = 1}^{m} \log p(y^{(i)} | \mathbf{x}^{(i)}; \mathbf{w})
           $$
 
-          The hypothesis which minimizes empirical risk is :
+          The empirical risk minimization principle states that we shoud choose hypothesis $\hat{h}_{\mathbf{w}}$ which minimizes the empirical risk :
 
           $$
             \eqalign {
@@ -177,7 +177,7 @@
           <a href="http://nowak.ece.wisc.edu/SLT09/lecture13.pdf"> ECE 901: Maximum Likelihood Estimation. - Robert Nowak </a> <br>
           <a href="http://www.cs.columbia.edu/~jebara/4771/tutorials/regression.pdf"> Regression by linear combination of basis functions. - Risi Kondor </a> <br>
           <a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf"> CS229: Supervised Learning, Discriminative Algorithms. - Andrew Ng </a> <br>
-          <a href="http://curtis.ml.cmu.edu/w/courses/index.php/Stochastic_Gradient_Descent"> Pattern Recognition and Machine Learning. - Christopher Bishop </a> <br>
+          <a href="https://www.microsoft.com/en-us/research/people/cmbishop/"> Pattern Recognition and Machine Learning. - Christopher Bishop </a> <br>
         </p>
       </div>
     </div>
