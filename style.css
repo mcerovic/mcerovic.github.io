@@ -89,13 +89,15 @@ body > div > div:nth-child(2) > ul > li > a:hover {
 	margin-bottom: 40px;
 }
 /* note caption */
-.note > a:first-child {
+.note > .h1 {
   font-size: 170%;
+  font-weight: 400;
+  margin-bottom: 0;
   padding-bottom: 2px;
   text-decoration: none;
   color: #0078D7;
 }
-.note > a:hover {
+.note > .h1 > a:hover {
 	border-bottom: 1px solid #0078D7;
 }
 /* note short info: tags and date */
