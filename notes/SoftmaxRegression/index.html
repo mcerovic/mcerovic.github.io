@@ -145,13 +145,13 @@
             \end{align}
           $$
 
-          Note, $ 1 \{ y^{(i)} = j \} $ is called the <a href="https://en.wikipedia.org/wiki/Indicator_function"> indicatior function </a> and it will produce $ 1 $ if the statemet $ y^{(i)} = j $ is true and $ 0 $ otherwise. We can solve the above optimization problem using the iterative optimization algorithm <a href="../GradientDescent/index.html"> gradient descent</a>. A derivative with the respect to the poistion $ j,l $ in the vector matrix is :
+          Note, $ 1 \{ y^{(i)} = j \} $ is called the <a href="https://en.wikipedia.org/wiki/Indicator_function"> indicatior function </a> and it will produce $ 1 $ if the statemet $ y^{(i)} = j $ is true and $ 0 $ otherwise. We can solve the above optimization problem using the iterative optimization algorithm <a href="../GradientDescent/index.html"> gradient descent</a>. A derivative with the respect to the poistion $ a,b $ in the vector matrix is :
 
           $$
             \eqalign {
-              \frac{\partial }{\partial w_{jl}} R_{emp}(h_{\mathbf{w}}) &= \frac{\partial }{\partial w_{jl}} \Bigg( -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \sum_{j = 1}^{k} 1\{ y^{(i)} = j \} \log \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \bigg]
+              \frac{\partial }{\partial w_{ab}} R_{emp}(h_{\mathbf{w}}) &= \frac{\partial }{\partial w_{ab}} \Bigg( -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \sum_{j = 1}^{k} 1\{ y^{(i)} = j \} \log \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \bigg]
               \Bigg) \\
-              &= -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \mathbf{x}_{b}^{(i)} \big( 1 \{y^{(i)} = j \} - \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x} }} \big) \bigg]
+              &= -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \mathbf{x}_{b}^{(i)} \big( 1 \{ y^{(i)} = a \} - \frac{e^{ \mathbf{w}_{a}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \big) \bigg]
 
             }
           $$
