@@ -58,7 +58,7 @@
 
           The classification problem can be e.g. determining if a bank transaction is a fraud or not, if an email is spam or not, what language the given text is in and so on.
 
-          For a given supervised data set $\mathcal{D} = \{ (\mathbf{x}^{(i)}, y^{(i)}) \mid \mathbf{x}^{(i)} \in \mathbb{R}^{n}, y^{(i)} \in \{0, 1\} \}_{i = 1}^{m}$ we have to determine to which class does some new instance $\mathbf{x}^{(k)}$, $\mathbf{x}^{(k)} \notin \mathcal{D}$, belongs.
+          For a given supervised data set $\mathcal{D} = \{ (\mathbf{x}^{(i)}, y^{(i)}) \mid \mathbf{x}^{(i)} \in \mathbb{R}^{n+1}, y^{(i)} \in \{0, 1\} \}_{i = 1}^{m}$ we have to determine to which class does some new instance $\mathbf{x}^{(k)}$, $\mathbf{x}^{(k)} \notin \mathcal{D}$, belongs.
 
           We said that all algorithms from the GLM family are derived from some probability distribution. <a href="../LinearRegression/index.html"> Linear regression </a> is choosing Gaussian distribution with the variable mean that best describes the data. In this case we have to choose Bernoulli distribution for discribing binary data, so $ y^{(i)} \mathop{\sim}\limits^{{\small\text{i.i.d.}}} \mathcal{Bernoulli}(h_{\mathbf{w}}(\mathbf{x}^{(i)})) $.
 
@@ -85,7 +85,7 @@
           <img class="himg" width="400px" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Logistic-curve.svg" alt="Logistic curve" />
           <span style="margin-top: -15px; font-size: 15px; display:block; text-align: center;"> Wikipedia figure</span>
 
-          The linear model $ \mathbf{w}^{T} \mathbf{x} $ is a hyperplane and from the plot we can conclude that if $ \mathbf{w}^{T} \mathbf{x} \geq 0 $ the probability of $ p(y = 1 | \mathbf{x}; \mathbf{w}) \geq 0.5 $ for class $ 1 $ and if $ \mathbf{w}^{T} \mathbf{x} \lt 0 $ the probability of $ p(y = 0 | \mathbf{x}; \mathbf{w}) \lt 0.5 $ for class $ 0 $. By combining these two our classifier takes a form :
+          The linear model $ \mathbf{w}^{T} \mathbf{x} $ is a hyperplane and from the plot we can conclude that if $ \mathbf{w}^{T} \mathbf{x} \geq 0 $ the probability of $ p(y = 1 | \mathbf{x}; \mathbf{w}) \geq 0.5 $ for class $ 1 $ and if $ \mathbf{w}^{T} \mathbf{x} \lt 0 $ the probability of $ p(y = 0 | \mathbf{x}; \mathbf{w}) \lt 0.5 $ for class $ 0 $. By combining these two our classifier will predict :
 
           $$
             h_{\mathbf{w}}(\mathbf{x}) =
@@ -105,7 +105,7 @@
 
           The empirical risk minimization principle states that we shoud choose hypothesis $\hat{h}_{\mathbf{w}}$ which minimizes the empirical risk $ R_{emp}(h_{\mathbf{w}}) $.
 
-          If we choose for the loss function negative log likelihood function $ L(y^{(i)}, \hat{y}) = - \log p(y^{(i)} | \mathbf{x}^{(i)}; \mathbf{w}) $ the ERM will be the same as the MLE and then the hypothesis we should choose is :
+          If we choose for the loss function negative log likelihood function $ L(y^{(i)}, \hat{y}) = - \log p(y^{(i)} | \mathbf{x}^{(i)}; \mathbf{w}) $ empirical risk minimization will be the same as maximum likelihood estimation and then the hypothesis we should choose is :
 
           $$
               \eqalign {
@@ -133,7 +133,7 @@
 
         <h1 id="regularized_logistic_regression"> 2. Regularized logistic regression </h1>
         <p>
-          Regularized form of the logistic regression with $\ell_{2}$ regularization term is :
+          Regularized form of logistic regression with $\ell_{2}$ regularization term is :
 
           $$
             \begin{align}

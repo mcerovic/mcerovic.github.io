@@ -58,7 +58,7 @@
         <p>
           Linear regression is one of the most well-known <a href="../SupervisedLearning/index.html"> supervised learning </a> algorithms and also a widely used algorithm for regression. It belongs to the class of <a href="#"> discriminative models</a> and we will make a set of probabilistic assumptions in order to find out what parameters to choose and what is the appropriate loss function for our model. Also, it comes from a much broader family of models called <i> Generalized Linear Models </i> (GLM) and each model from GLM is derived from some specific data distribution.
 
-          Let's say we have a set defined as $\mathcal{D} = \big \{ (\mathbf{x}^{(i)}, y^{(i)}) \mid \mathbf{x}^{(i)} \in \mathbb{R}^{n}, y^{(i)} \in \mathbb{R} \big \}_{i = 1}^{m}$. Our goal is to predict for some new $ \mathbf{x}^{(k)} $, $\mathbf{x}^{(k)} \notin \mathcal{D}$, corresponding $y^{(k)}$, in other words we try to predict a continious value for some new, previously unseen example.
+          Let's say we have a set defined as $\mathcal{D} = \big \{ (\mathbf{x}^{(i)}, y^{(i)}) \mid \mathbf{x}^{(i)} \in \mathbb{R}^{n+1}, y^{(i)} \in \mathbb{R} \big \}_{i = 1}^{m}$. Our goal is to predict for some new $ \mathbf{x}^{(k)} $, $\mathbf{x}^{(k)} \notin \mathcal{D}$, corresponding $y^{(k)}$, in other words we try to predict a continious value for some new, previously unseen example.
 
           Let's assume that we're trying to approximate $ y $ as a linear function of $ x $, so our hypothesis $ h_{\mathbf{w}} $ is defined as follows :
 
@@ -149,7 +149,7 @@
             }
           $$
 
-          We have used rules $ \log(ab) = \log(a) + \log(b) $ and $ \log(e^{x}) = x $ and we've also removed unnecessary constants. As we can see the empirical risk minimization is equivalent to the maximum likelihood estimation. This function is differentiable and even more, it is always convex so it is guaranteed it will converge to minimum and we can use <a href="../GradientDescent/index.html"> gradient descent</a> or some of its variants in order to find $ \hat{h}_{\mathbf{w}} $. Let's derive a derivative for batch gradient descent, both other versions stochastic and mini-batch will have just different $ m $ in sum, $1$ and $k$ respectively. Batch gradient descent derivative :
+          We have used rules $ \log(ab) = \log(a) + \log(b) $ and $ \log(e^{x}) = x $ and we've also removed unnecessary constants. As we can see empirical risk minimization is equivalent to maximum likelihood estimation. This function is differentiable and even more, it is always convex so it is guaranteed it will converge to minimum and we can use <a href="../GradientDescent/index.html"> gradient descent</a> or some of its variants in order to find $ \hat{h}_{\mathbf{w}} $. Let's derive a derivative for batch gradient descent, both other versions stochastic and mini-batch will have just different $ m $ in sum, $1$ and $k$ respectively. Batch gradient descent derivative :
 
           $$
             \eqalign {
@@ -163,7 +163,7 @@
 
         <h1 id="regularized_linear_regression">2. Regularized linear regression </h1>
         <p>
-          Regularized form of the linear regression with $\ell_{2}$ regularization term is :
+          Regularized form of linear regression with $\ell_{2}$ regularization term is :
 
           $$
             \hat{h}_{\mathbf{w}} = \arg\min_{h_{\mathbf{w}} \in \mathcal{H}} \bigg\{

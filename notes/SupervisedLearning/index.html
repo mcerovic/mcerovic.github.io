@@ -126,9 +126,12 @@
 
           By adding this term, the optimization problem then consists of minimizing :
 
-          $$  \hat{h}_{\mathbf{w}} =  \arg\min_{h_{\mathbf{w}} \in \mathcal{H}} \bigg\{
+          $$
+            \hat{h}_{\mathbf{w}} =  \arg\min_{h_{\mathbf{w}} \in \mathcal{H}}
+              \bigg\{
                 \frac{1}{m} \sum_{i = 1}^{m} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)})) + \lambda \| \mathbf{w} \|_{2}^{2}
-              \bigg\} $$
+              \bigg\}
+          $$
 
           where $ \| \mathbf{w} \|_{2}^{2}$ is a squared <a href="https://en.wikipedia.org/wiki/Norm_(mathematics)#Euclidean_norm">Euclidean norm</a> and $\lambda \in \mathbb{R}$ is regularization parameter which is used to controls the <a href="https://en.wikipedia.org/wiki/Bias%E2%80%93variance_tradeoff"> bias-variance tradeoff</a>.
 
@@ -137,17 +140,26 @@
           Ridge regularization ensures existence, uniqueness, and stability of the solution.
 
           Other regularizations terms are lasso or $\ell_{1}$ regularization, elastic net regularization and others.
+
+          The empirical risk with a regularization term is denoted in general as :
+
+          $$
+            \hat{h}_{\mathbf{w}} =  \arg\min_{h_{\mathbf{w}} \in \mathcal{H}}
+              \bigg\{
+                \frac{1}{m} \sum_{i = 1}^{m} L(y^{(i)}, h_{\mathbf{w}}(\mathbf{x}^{(i)})) + \lambda \Omega (\mathbf{w})
+              \bigg\}
+          $$
         </p>
 
         <h1 id="resources"> 5. Resources </h1>
         <p>
           <a href="https://davidrosenberg.github.io/ml2015/docs/2a.excess-risk-example.pdf"> Statistical Learning Theory: Recap and Example. - David Rosenberg</a> <br>
-          <a href="https://www.microsoft.com/en-us/research/people/cmbishop/">Pattern Recognition and Machine Learning. - Christopher Bishop</a> <br>
-  				<a href="http://cs229.stanford.edu/notes/cs229-notes4.pdf"> CS229: Learning Theory. - Andrew Ng </a> <br>
+          <a href="https://davidrosenberg.github.io/ml2015/docs/2b.L1L2-regularization.pdf">$\ell_1$ and $\ell_2$ Regularization. - David Rosenberg</a> <br>
+          <a href="http://cs229.stanford.edu/notes/cs229-notes4.pdf"> CS229: Learning Theory. - Andrew Ng </a> <br>
           <a href="http://cs229.stanford.edu/extra-notes/loss-functions.pdf"> CS229 Supplemental Lecture notes. - John Duchi </a> <br>
-          <a href="https://www.cs.ubc.ca/~murphyk/MLbook/"> Machine Learning: a Probabilistic Perspective. - Kevin Murphy </a> <br>
+          <a href="https://www.microsoft.com/en-us/research/people/cmbishop/">Pattern Recognition and Machine Learning. - Christopher Bishop</a> <br>
           <a href="https://papers.nips.cc/paper/506-principles-of-risk-minimization-for-learning-theory.pdf"> Principles of Risk Minimization for Learning Theory. - Vladimir Vapnik</a> <br>
-          <a href="https://davidrosenberg.github.io/ml2015/docs/2b.L1L2-regularization.pdf">$\ell_1$ and $\ell_2$ Regularization. - David Rosenberg</a>
+
         </p>
 
       </div>

@@ -1,0 +1,185 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name=viewport content="width=710">
+  <meta name="description" content="Personal blog about machine learning">
+  <meta name="keywords" content="Machine learning, Supervised learning, Discriminative models, Generalized Linear Models, Classification, Multiclass classification, OvA, OvO, One vs All, One vs One, Softmax Regression, Maximum Likelihood Estimation For Logistic Regression, Regularized Softmax Regression, Empirical Risk Mimization For Softmax Regression">
+  <meta name="author" content="mcerovic">
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"> </script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="shortcut icon" type="image/png" href="../../favicon.png"/>
+  <script>
+    // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    //
+    // ga('create', 'UA-86497875-1', 'auto');
+    // ga('send', 'pageview');
+  </script>
+	<script> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}, CommonHTML: {scale: 100}});</script>
+  <title> Softmax Regression </title>
+</head>
+<body>
+<div>
+  <!-- title -->
+	<p>
+		<span>m</span>cerovic
+		<span> blog about machine learning algorithms </span>
+	</p>
+  <!-- navigation -->
+  <div>
+    <ul>
+      <li><a href="../../index.html"> Notes </a></li> &middot;
+      <li><a href="../../projects.html"> Projects </a></li> &middot;
+      <li><a href="../../topics.html"> Topics </a></li> &middot;
+      <li><a href="../../archive.html"> Archive </a></li> &middot;
+      <li><a href="../../about.html"> About </a></li>
+    </ul>
+  </div>
+  <!-- post container -->
+	<div>
+		<div class="note">
+			<a href=""> Softmax Regression </a>
+			<span> Supervised Learning, Classification, Discriminative Learning, Generalized Linear Models </span>
+      <!-- contents -->
+      <ul class="contents">
+        <li> <a href="#"> 1. Multiclass classification </a> </li>
+        <li> <a href="#"> 2. Softmax regression </a> </li>
+        <li> <a href="#"> 3. Regularized softmax regression </a> </li>
+        <li> <a href="#"> 4. Resources </a> </li>
+      </ul>
+      <div>
+
+        <h1 id="#">1. Multiclass classification </h1>
+  			<p>
+          In binary classifications we had to create classifier which could distinguish two classes, $ y^{(i)} \in \{0, 1\} $. Anyway often a given problem often has more than two classes, $ y^{(i)} \in \{1, 2, \dots, k\} $, where $ k $ is the number of classes. There are several techniques which can solve this problem. One of them reduces the problem of multiclass classification to multiple binary classifications. We can do this in two ways. The first one is called <i>one-versus-all</i> or <i>OvA</i>. This strategy consists of creating $ k $ different binary classifiers $ h_{\mathbf{w}}^{(j)} $, where $ j \in \{1, 2, \dots, k\} $. For each classifier $ h_{\mathbf{w}}^{(j)} $ we reassign, just temporary while training $j-$th classifier, lables from a data set as :
+
+          $$
+            y^{(i)} =
+              \begin{cases}
+                1,  & \text{if $ y^{(i)} = j $} \\[1ex]
+                0,  & \text{otherwise}
+              \end{cases}
+          $$
+
+          Then when we have $ k $ binary classifiers we classify new sample $ x^{(new)} $ as class $ j $ for the classifier $ j $ that gives the highest confidence score :
+
+          $$
+            y^{(new)} = \arg \max_{j \in 1 \dots k} h_{\mathbf{w}}^{(j)}(x^{(new)})
+          $$
+
+          This means that we will assign a sample $ x^{(new)} $ to class $ j $ if $ h_{\mathbf{w}}^{(j)}(\mathbf{x}) > h_{\mathbf{w}}^{(l)}(\mathbf{x}) $ for all $ j \neq l $.
+
+          The other strategy is called <i>one-versus-one</i> or <i>OvO</i> which creates $ \frac{k(k - 1)}{2} $ binary classifiers. Little digression about complexity, OvO requires $ O(k^{2}) $ classifiers instead of $ O(k) $ for OvA, but each classifier is (on average) much smaller. For each pair of classes $ (j, l) \in \{1, 2, \dots, k\} $, where $ j \neq l $ and note that $ h_{\mathbf{w}}^{(j,l)} = \neg h_{\mathbf{w}}^{(l, j)} $, we create classifier $ h_{\mathbf{w}}^{(j,l)} $ and reassign lables, again just temporary while training $(j, l)-$th classifier, from the data set as :
+
+          $$
+            y^{(i)} =
+              \begin{cases}
+                1,  & \text{if $ y^{(i)} = j $} \\[1ex]
+                0,  & \text{if $ y^{(i)} = l $}
+              \end{cases}
+          $$
+
+          Then we classify a new sample $ x^{(new)} $ as :
+
+          $$
+            y^{(new)} = \arg \max_{j \in 1 \dots k} \bigg( \sum_{l \neq j}^{k} h_{\mathbf{w}}^{(j,l)}(x^{(new)}) \bigg)
+          $$
+
+          In both approaches, OvA and OvO, classification can suffer from ambiguous regions, which means that a sample can be ambiguously classified, e.g. to be classified with each class at once. In order to overcome these difficulties we will use real-valued confidence score for the classifier decision instead of descrete-valued confidence score.
+        </p>
+
+        <h1 id="#"> 2. Softmax Regression </h1>
+        <p>
+          Another technique for classifying multiclass data is to use machine learning algorithms that are by their nature multiclass oriented. Softmax regression or multinomial logistic regression is a generalization of logistic regression. If the classes are <i>mutually exclusive</i> then it is better to use softmax regression instead of building separate binary classifiers.
+
+          In softmax regression we assume $ y^{(i)} \mathop{\sim}\limits^{{\small\text{i.i.d.}}} Multinomial(k, h_{\mathbf{w}}(\mathbf{x}^{(i)})) $, where $ k $ is the number of classes and $ h_{\mathbf{w}} $ is a vector with probabilities of "success" for each class.
+
+          For a given data set $\mathcal{D} = \big \{ (\mathbf{x}^{(i)}, y^{(i)}) \mid \mathbf{x}^{(i)} \in \mathbb{R}^{n+1}, y^{(i)} \in \{ 1, 2 \dots, k \} \big \}_{i = 1}^{m}$ we want for some new $ x^{(new)} $, $ x^{(new)} \notin \mathcal{D} $, to estimate the probability $ p(y^{(i)}=j | \mathbf{x}^{(i)}; \mathbf{w}) $ of the class label taking on each of the $k$ different possible values. The hypothesis $ h_{\mathbf{w}} $ :
+
+          $$
+            h_{\mathbf{w}}(\mathbf{x}^{(i)}) = p(y^{(i)} = j | \mathbf{x}^{(i)}; \mathbf{w}) = \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x} }}
+          $$
+
+          where $ \mathbf{w}_{j} $ is a vector of parameters for class $ j $ and the term $ \big( \sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}} \big)^{-1} $ normalizes the distribution so that it sums to one $ \sum_{j = 1}^{k} p(y^{(i)} = j|\mathbf{x}^{(i)}; \mathbf{w}) = 1$, because all outcomes are mutually exclusive. Note that subscript $\mathbf{w}$ in the hypothesis represents a $k \times (n + 1)$ matrix of weights :
+
+          $$
+            \mathbf{w} =
+            \begin{bmatrix}
+              w_{0}^{1} & w_{1}^{1} & w_{2}^{1} & \cdots & w_{n}^{1} \\
+              w_{0}^{2} & w_{1}^{2} & w_{2}^{2} & \cdots & w_{n}^{2} \\
+              \vdots    & \vdots    & \vdots    & \ddots & \vdots    \\
+              w_{0}^{k} & w_{1}^{k} & w_{2}^{k} & \cdots & w_{n}^{k} \\
+            \end{bmatrix}
+          $$
+
+          The hypothesis $ h_{\mathbf{w}} $ will output $k-$dimensional vector with probabilities for each of $ k $ possible classes :
+
+          $$
+            h_{\mathbf{w}}(\mathbf{x}^{(i)})  = \begin{bmatrix}
+                                                  p(y^{(i)} = 1 | \mathbf{x}^{(i)}; \mathbf{w}_{1}) \\
+                                                  p(y^{(i)} = 2 | \mathbf{x}^{(i)}; \mathbf{w}_{2}) \\
+                                                  \vdots \\
+                                                  p(y^{(i)} = k | \mathbf{x}^{(i)}; \mathbf{w}_{k})
+                                                \end{bmatrix}
+                                              = \frac{1}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }}
+                                                \begin{bmatrix}
+                                                  e^{ \mathbf{w}_{1}^{T} \mathbf{x}^{(i)}} \\
+                                                  e^{ \mathbf{w}_{2}^{T} \mathbf{x}^{(i)}} \\
+                                                  \vdots \\
+                                                  e^{ \mathbf{w}_{k}^{T} \mathbf{x}^{(i)}}
+                                                \end{bmatrix}
+          $$
+
+          Again, our goal is to minimize the <a href="../SupervisedLearning/index.html#empirical_risk_minimization"> empirical risk </a>. If we choose for the loss function negative log likelihood function $ L(y^{(i)}, \hat{y}) = - \log p(y^{(i)} | \mathbf{x}^{(i)}; \mathbf{w}) $ then empirical risk minimization will be the same as maximum likelihood estimation and then the hypothesis we should choose is :
+
+          $$
+            \begin{align}
+              \hat{h}_{\mathbf{w}} &= \arg \min_{h_{\mathbf{w}} \in \mathcal{H}} R_{emp} (h_{\mathbf{w}}) \\
+              &= \arg \min_{h_{\mathbf{w}}} -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \log p(y^{(i)}|\mathbf{x}^{(i)};\mathbf{w}) \bigg] \\
+              &= \arg \min_{h_{\mathbf{w}}} -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \log \prod_{j = 1}^{k} \Bigg( \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \Bigg)^{1\{y^{(i)} = j\}} \bigg] \\
+              &= \arg \min_{h_{\mathbf{w}}} -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \sum_{j = 1}^{k} 1\{ y^{(i)} = j \} \log \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \bigg] \\
+            \end{align}
+          $$
+
+          Note, $ 1 \{ y^{(i)} = j \} $ is called the <a href="https://en.wikipedia.org/wiki/Indicator_function"> indicatior function </a> and it will produce $ 1 $ if the statemet $ y^{(i)} = j $ is true and $ 0 $ otherwise. We can solve the above optimization problem using the iterative optimization algorithm <a href="../GradientDescent/index.html"> gradient descent</a>. A derivative with the respect to the poistion $ j,l $ in the vector matrix is :
+
+          $$
+            \eqalign {
+              \frac{\partial }{\partial w_{jl}} R_{emp}(h_{\mathbf{w}}) &= \frac{\partial }{\partial w_{jl}} \Bigg( -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \sum_{j = 1}^{k} 1\{ y^{(i)} = j \} \log \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \bigg]
+              \Bigg) \\
+              &= -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \mathbf{x}_{b}^{(i)} \big( 1 \{y^{(i)} = j \} - \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x} }} \big) \bigg]
+
+            }
+          $$
+        </p>
+
+        <h1 id="#"> 3. Regularized softmax regression </h1>
+        <p>
+          Because we have the matrix of weights we will have to sum over all columns and rows. Regularized form of softmax regression with $\ell_{2}$ regularization term is :
+
+          $$
+            \begin{align}
+              \hat{h}_{\mathbf{w}} = \arg\min_{h_{\mathbf{w}} \in \mathcal{H}} \bigg\{
+                R_{emp}(h_{\mathbf{w}}) + \lambda \sum_{i = 1}^{k} \sum_{j = 1}^{n} w_{ij}^{2}
+              \bigg\}
+            \end{align}
+          $$
+        </p>
+
+        <h1 id="#"> 4. Resources </h1>
+        <p>
+          <a href="http://deeplearning.stanford.edu/wiki/index.php/Softmax_Regression"> UFLDL Tutorial: Softmax Regression. - Andrew Ng </a> <br>
+          <a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf"> CS229: Supervised Learning, Discriminative Algorithms. - Andrew Ng </a> <br>
+  				<a href="https://www.microsoft.com/en-us/research/people/cmbishop/"> Pattern Recognition and Machine Learning. - Christopher Bishop </a>
+        </p>
+
+		  </div>
+	  </div>
+  </div>
+	<p> Copyright &copy; 2016 </p>
+</div>
+</body>
+</html>
