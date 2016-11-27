@@ -89,7 +89,7 @@
             y^{(new)} = \arg \max_{j \in 1 \dots k} \bigg( \sum_{l \neq j}^{k} h_{\mathbf{w}}^{(j,l)}(x^{(new)}) \bigg)
           $$
 
-          In both approaches, OvA and OvO, classification can suffer from ambiguous regions, which means that a sample can be ambiguously classified, e.g. to be classified with each class at once. In order to overcome these difficulties we will use real-valued confidence score for the classifier decision instead of descrete-valued confidence score.
+          In both approaches, OvA and OvO, classification can suffer from ambiguous regions, which means that a sample can be ambiguously classified, e.g. to be classified with each class at once. In order to overcome these difficulties we will use real-valued confidence score for the classifier decision instead of discrete-valued confidence score.
         </p>
 
         <h1 id="#"> 2. Softmax Regression </h1>
@@ -145,7 +145,7 @@
             \end{align}
           $$
 
-          Note, $ 1 \{ y^{(i)} = j \} $ is called the <a href="https://en.wikipedia.org/wiki/Indicator_function"> indicatior function </a> and it will produce $ 1 $ if the statemet $ y^{(i)} = j $ is true and $ 0 $ otherwise. We can solve the above optimization problem using the iterative optimization algorithm <a href="../GradientDescent/index.html"> gradient descent</a>. A derivative with the respect to the poistion $ a,b $ in the weight matrix is :
+          Note, $ 1 \{ y^{(i)} = j \} $ is called the <a href="https://en.wikipedia.org/wiki/Indicator_function"> indicatior function </a> and it will produce $ 1 $ if the statemet $ y^{(i)} = j $ is true and $ 0 $ otherwise. We can solve the above optimization problem using the iterative optimization algorithm <a href="../GradientDescent/index.html"> gradient descent</a>. A derivative with the respect to the position $ a,b $ in the weight matrix is :
 
           $$
             \eqalign {
