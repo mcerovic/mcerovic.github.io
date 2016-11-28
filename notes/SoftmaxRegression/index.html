@@ -149,7 +149,7 @@
 
           $$
             \eqalign {
-              \frac{\partial }{\partial w_{ab}} R_{emp}(h_{\mathbf{w}}) &= \frac{\partial }{\partial w_{ab}} \Bigg( -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \sum_{j = 1}^{k} 1\{ y^{(i)} = j \} \log \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \bigg]
+              \frac{\partial }{\partial \mathbf{w}_{ab}} R_{emp}(h_{\mathbf{w}}) &= \frac{\partial }{\partial \mathbf{w}_{ab}} \Bigg( -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \sum_{j = 1}^{k} 1\{ y^{(i)} = j \} \log \frac{e^{ \mathbf{w}_{j}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \bigg]
               \Bigg) \\
               &= -\frac{1}{m} \bigg[ \sum_{i = 1}^{m} \mathbf{x}_{b}^{(i)} \big( 1 \{ y^{(i)} = a \} - \frac{e^{ \mathbf{w}_{a}^{T} \mathbf{x}^{(i)} }}{\sum_{l = 1}^{k} e^{ \mathbf{w}_{l}^{T} \mathbf{x}^{(i)} }} \big) \bigg]
 
