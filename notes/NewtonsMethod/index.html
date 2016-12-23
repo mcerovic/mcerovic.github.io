@@ -1,0 +1,142 @@
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name=viewport content="width=710">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="mcerovic">
+  <link rel="canonical" href="https://mcerovic.github.io/notes/NewtonsMethod/"/>
+  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML"> </script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="../../style.css">
+  <link rel="shortcut icon" type="image/png" href="../../favicon.png"/>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-86497875-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+	<script> MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}, CommonHTML: {scale: 100}});</script>
+  <title> Newton's Method </title>
+</head>
+<body>
+<div>
+  <!-- title -->
+	<p>
+		<span>m</span>cerovic
+		<span> blog about machine learning algorithms </span>
+	</p>
+  <!-- navigation -->
+  <div>
+    <ul>
+      <li><a href="../../index.html"> Notes </a></li> &middot;
+      <li><a href="../../projects.html"> Projects </a></li> &middot;
+      <li><a href="../../topics.html"> Topics </a></li> &middot;
+      <li><a href="../../archive.html"> Archive </a></li> &middot;
+      <li><a href="../../about.html"> About </a></li>
+    </ul>
+  </div>
+  <!-- post container -->
+	<div>
+		<div class="note">
+			<h1 class="h1"> <a href=""> Newton's Method </a> </h1>
+			<span> Optimization </span>
+      <!-- contents -->
+      <ul class="contents">
+        <li> <a href="#"> 1. Newton's Method </a> </li>
+        <li> <a href="#"> 2. Newton's Method For Optimization </a>
+          <ul>
+            <li> <a href="#"> 2.1. One-dimensional space </a> </li>
+            <li> <a href="#"> 2.2. Multi-dimensional space </a> </li>
+          </ul>
+        </li>
+        <li> <a href="#"> 3. Issues with Newton's method for optimization </a></li>
+        <li> <a href="#"> 4. Resources </a> </li>
+      </ul>
+      <div>
+
+        <h1 id="#"> 1. Newton's Method </h1>
+  			<p>
+          Suppose we have some real-valued function $ f : \mathbb{R}^{n} \to \mathbb{R} $, which is continuously differentiable at least ones, $ f \in C^{1}(\mathbb{R}^{n}) $. Let's say that we want to find roots or at least some good approximation for the roots of our function $ f $, $ x^{*} \in Dom(f) $ s.t. $ f(x^{*}) = 0 $ or $ f(x^{*}) \approx 0 $. We can do this using Newton's method which is an iterative method for finding successive approximations of the roots of a differentiable function. We start with some random choosen point $ x_{0} \in Dom(f) $ as an initail guess for a root of the function $ f $. If $ x_{0} $ satisfies one of two conditions above we can stop, otherwise if it doesn't satisfy the conditions we will try to make a better approximation $ x_{1} $ as :
+
+          $$
+            x_{1} = x_{0} - \frac{f(x_{0})}{f'(x_{0})}
+          $$
+
+          Geometrically, $ (x_{1}, 0) $ is the intersection of the $x-$axis and the tangent of the graph of $ f $ at $(x_{1}, f(x_{1}))$. We will repeat this process until a sufficiently accurate value is reached. The general equation for finding next approximation point $ x_{n+1} $ is :
+
+          $$
+            x_{n + 1} = x_{n} - \frac{f(x_{n})}{f'(x_{n})}
+          $$
+        </p>
+
+        <h1 id="#"> 2. Newton's Method For Optimization </h1>
+  			<p>
+          We can extend Newton's method for zeros finding to be a method for unconstrained optimization. In order to find minimum of some function $ f $, we want to find the zero of it's derivative, because we know that the minimum of $ f(x)$ is at $ f'(x) = 0 $ and in this case we call $x$ stationary point.
+        </p>
+
+        <h2 id="#"> 2.1. One-dimensional space </h2>
+  			<p>
+          When $ f : \mathbb{R} \to \mathbb{R} $ we can approximate $ f $ with the second-order <a href="https://en.wikipedia.org/wiki/Taylor_series"> Taylor expansion </a> around some point $ x_{n} $ :
+
+          $$
+            f(x_{n} + \Delta x) \approx f(x_{n}) + f'(x_{n})\Delta x + \frac{1}{2} f''(x_{n}) \Delta x^{2}
+          $$
+
+          Then our goal is to find $ \Delta x $ such that $ x_{n} + \Delta x $ is a stationary point, because we know that in the stationary point the function can have the minimum :
+
+          $$
+            0 = \frac{d}{d \Delta x} \bigg( f(x_{n}) + f'(x_{n}) \Delta x + \frac{1}{2} f''(x_{n}) \Delta x^{2} \bigg) = f'(x_{n}) + f''(x_{n})
+            \Delta x
+          $$
+
+          $$
+            0 = f'(x_{n}) + f''(x_{n}) \Delta x \Rightarrow  x_{n + 1} = x_{n} - \frac{f'(x_{n})}{f''(x_{n})} \tag{1}
+          $$
+
+          Geometrically, in each iteration of Newton's method for optimization we approximate $ f(x) $ by a quadratic function around $ x_{n} $, and then take a step towards the minimum of that quadratic function. We will repeat $(1)$ until we are satisfied with approximation of the minimum.
+        </p>
+
+        <h2 id="#"> 2.2. Multi-dimensional space </h2>
+  			<p>
+          Generalization of Newton's method in higher dimensional space is that we replace $ f'(\mathbf{x}) $ with the gradient vector $ \nabla f(\mathbf{x}) $ and the reciprocal of the second derivative with the inverse of Hessian matrix $ \mathbf{H} f(\mathbf{x}) $. Suppose we want to find the minimum of function $ f : \mathbb{R}^{n} \to \mathbb{R} $. Then, the gradient vector of function $ f $ is defined as :
+
+          $$
+            \nabla f(\mathbf{x}) = \bigg(
+              \frac{\partial f}{\partial x_{1}} , \frac{\partial f}{\partial x_{2}} , \dots , \frac{\partial f}{\partial x_{n}}
+            \bigg)^{T}
+          $$
+
+          And Hessian matrix is defined as :
+
+          $$
+            \mathbf{H} f(\mathbf{x}) = \Bigg(  \frac{\partial^{2}}{\partial x_{i} \partial x_{j}} f(\mathbf{x}) \Bigg)_{ij}
+          $$
+
+          Then the algorithm is :
+
+          $$
+            \mathbf{x}_{n + 1} = \mathbf{x}_{n} - [\mathbf{H} f(\mathbf{x}_{n})]^{-1} \nabla f(\mathbf{x}_{n})
+          $$
+        </p>
+
+        <h1 id="#"> 3. Issues with Newton's method for optimization </h1>
+        <p>
+          The main problem with Newton's method for optimization is that Hessian $ \mathbf{H} f(\mathbf{x}_{n}) $ is not allways invertable, but there are algorithms like Hessian-free optimization, L-BFGS, etc. that use approximation of the matrix. And the other obvious problem is that it requires $O(n^{2})$ space for storing $ \mathbf{H} f(\mathbf{x}_{n}) $. In Hessian-free optimization method we make approximation to the matrix and then, assuming that approximation is correct, we minimize the error using efficient tecnique called <a href="https://en.wikipedia.org/wiki/Conjugate_gradient_method"> Conjugate gradient method </a>.
+        </p>
+
+        <h1 id="#"> 4. Resources </h1>
+        <p>
+          <a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf"> CS229: Supervised Learning, Discriminative Algorithms. - Andrew Ng </a> <br>
+        </p>
+
+		  </div>
+	  </div>
+  </div>
+	<p> Copyright &copy; 2016 </p>
+</div>
+</body>
+</html>
